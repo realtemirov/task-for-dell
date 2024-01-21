@@ -12,7 +12,6 @@ on:
 jobs:
 
   build:
-
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -22,14 +21,21 @@ jobs:
 
     - name: Build and Push Docker Image
       run: |
-        docker build -t realtemirov/task-for-dell:latest . --file docker/Dockerfile
+        docker build . --tag realtemirov/task-for-dell:latest --file docker/Dockerfile
         docker push realtemirov/task-for-dell:latest
+    
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
     - name: install ssh keys
       run: |
         install -m 600 -D /dev/null ~/.ssh/id_rsa
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+    
     - name: connect and pull
-      run: ssh root@${{ secrets.SSH_HOST }} "cd task-for-dell && docker compose down && docker compose pull && docker compose up -d --build"
+      run: |
+        ssh root@${{ secrets.SSH_HOST }} "cd task-for-dell && docker compose down && docker compose pull && docker compose up -d --build"
+    
     - name: cleanup
       run: rm -rf ~/.ssh
