@@ -1,0 +1,458 @@
+definitions:
+  httpErrors.ErrorMessage:
+    properties:
+      message:
+        type: string
+      status_code:
+        type: integer
+    type: object
+  models.Blog:
+    properties:
+      content:
+        example: this is content
+        minLength: 10
+        type: string
+      created_at:
+        example: "2021-01-01T00:00:00Z"
+        type: string
+      id:
+        example: 1
+        type: integer
+      title:
+        example: this is title
+        minLength: 3
+        type: string
+    required:
+    - content
+    - title
+    type: object
+  models.BlogList:
+    properties:
+      blogs:
+        items:
+          $ref: '#/definitions/models.Blog'
+        type: array
+      has_more:
+        example: true
+        type: boolean
+      limit:
+        example: 10
+        type: integer
+      page:
+        example: 1
+        type: integer
+      total_count:
+        example: 100
+        type: integer
+      total_page:
+        example: 10
+        type: integer
+    type: object
+  models.BlogSwagger:
+    properties:
+      content:
+        example: this is content
+        minLength: 10
+        type: string
+      title:
+        example: this is title
+        maxLength: 255
+        minLength: 3
+        type: string
+    required:
+    - content
+    - title
+    type: object
+  models.New:
+    properties:
+      content:
+        example: this is content
+        minLength: 10
+        type: string
+      created_at:
+        example: "2021-01-01T00:00:00Z"
+        type: string
+      id:
+        example: 1
+        type: integer
+      title:
+        example: this is title
+        minLength: 3
+        type: string
+    required:
+    - content
+    - title
+    type: object
+  models.NewSwagger:
+    properties:
+      content:
+        example: this is content
+        minLength: 10
+        type: string
+      title:
+        example: this is title
+        maxLength: 255
+        minLength: 3
+        type: string
+    required:
+    - content
+    - title
+    type: object
+info:
+  contact: {}
+paths:
+  /blogs:
+    get:
+      consumes:
+      - application/json
+      description: Get all blogs with pagination and search
+      parameters:
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: search
+        type: string
+      - in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.BlogList'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.ErrorMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httpErrors.ErrorMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.ErrorMessage'
+      summary: GetAll
+      tags:
+      - Blogs
+    post:
+      consumes:
+      - application/json
+      description: Create blog
+      parameters:
+      - description: blog
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.BlogSwagger'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Blog'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.ErrorMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.ErrorMessage'
+      summary: Create blog
+      tags:
+      - Blogs
+  /blogs/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete blog
+      parameters:
+      - description: blog_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.ErrorMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httpErrors.ErrorMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.ErrorMessage'
+      summary: Delete
+      tags:
+      - Blogs
+    get:
+      consumes:
+      - application/json
+      description: Getting blog by id
+      parameters:
+      - description: blog_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Blog'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.ErrorMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httpErrors.ErrorMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.ErrorMessage'
+      summary: GetByID
+      tags:
+      - Blogs
+    put:
+      consumes:
+      - application/json
+      description: Update blog
+      parameters:
+      - description: blog_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.BlogSwagger'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Blog'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.ErrorMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httpErrors.ErrorMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.ErrorMessage'
+      summary: Update
+      tags:
+      - Blogs
+  /news:
+    get:
+      consumes:
+      - application/json
+      description: Get all new with pagination and search
+      parameters:
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: search
+        type: string
+      - in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.BlogList'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.ErrorMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httpErrors.ErrorMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.ErrorMessage'
+      summary: GetAll
+      tags:
+      - News
+    post:
+      consumes:
+      - application/json
+      description: Create new
+      parameters:
+      - description: new
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.NewSwagger'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.New'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.ErrorMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.ErrorMessage'
+      summary: Create new
+      tags:
+      - News
+  /news/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete new
+      parameters:
+      - description: new_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.ErrorMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httpErrors.ErrorMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.ErrorMessage'
+      summary: Delete
+      tags:
+      - News
+    get:
+      consumes:
+      - application/json
+      description: Getting new by id
+      parameters:
+      - description: new_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.New'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.ErrorMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httpErrors.ErrorMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.ErrorMessage'
+      summary: GetByID
+      tags:
+      - News
+    put:
+      consumes:
+      - application/json
+      description: Update new
+      parameters:
+      - description: new_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.NewSwagger'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.New'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.ErrorMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httpErrors.ErrorMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.ErrorMessage'
+      summary: Update
+      tags:
+      - News
+  /ping:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"message":"pong"}'
+          schema:
+            type: string
+      summary: Health check endpoint
+      tags:
+      - Health
+swagger: "2.0"

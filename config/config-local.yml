@@ -1,0 +1,22 @@
+server:
+  AppVersion: 1.0.0
+  Mode: Development
+  Port: :8080
+  Debug: false
+  ReadTimeout: 5
+  WriteTimeout: 5
+  CtxDefaultTime: 12
+
+logger:
+  Development: true
+  Level: info
+  Encoding: json
+
+postgres:
+  Host: localhost
+  Port: 5433
+  Username: realtemirov
+  Password: 123456
+  DBName: task-for-dell
+  SSLMode: disable
+  PgDriver: pgx
