@@ -20,17 +20,18 @@ const (
 func NewPostgresDB(cfg *config.Config) (*sqlx.DB, error) {
 
 	connectionString := fmt.Sprintf(
-		"host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
-		cfg.Postgres.Host,
-		cfg.Postgres.Port,
+		"postgres://%s:%s@%s:%s/%s?sslmode=%s",
 		cfg.Postgres.Username,
 		cfg.Postgres.Password,
+		cfg.Postgres.Host,
+		cfg.Postgres.Port,
 		cfg.Postgres.DBName,
 		cfg.Postgres.SSLMode,
 	)
 
 	db, err := sqlx.Connect(cfg.Postgres.PgDriver, connectionString)
 	if err != nil {
+		fmt.Println("error connecting to db", connectionString)
 		return nil, err
 	}
 

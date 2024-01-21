@@ -1,0 +1,53 @@
+version: "3.8"
+
+services:
+    
+    postgres:
+      image: postgres:16-alpine3.18
+      environment:
+        - POSTGRES_USER=realtemirov
+        - POSTGRES_PASSWORD=123456
+        - POSTGRES_DB=task-for-dell
+      volumes:
+        - pgdata:/var/lib/postgresql/data
+      ports:
+        - "5432:5432"
+      healthcheck:
+        test: [ "CMD-SHELL", "pg_isready" ]
+        interval: 10s
+        timeout: 5s
+        retries: 10
+    migrate-post:
+      image: migrate/migrate
+      command:
+        [
+          "-path",
+          "/migrations",
+          "-database",
+          "postgres://realtemirov:123456@postgres:5432/task-for-dell?sslmode=disable",
+          "up"
+        ]
+      depends_on:
+        postgres:
+          condition: service_healthy
+      volumes:
+        - ./migrations:/migrations
+    api:
+      # build:
+      #     context: .
+      #     dockerfile: docker/Dockerfile
+      image: realtemirov/task-for-dell:latest
+      ports:
+        - "8000:8000"
+      environment:
+        - POSTGRES_HOST=postgres
+        - POSTGRES_PORT=5432
+        - POSTGRES_USER=realtemirov
+        - POSTGRES_PASSWORD=123456
+        - POSTGRES_DB=task-for-dell
+      depends_on:
+        - postgres  
+      restart: always
+
+volumes:
+    pgdata:

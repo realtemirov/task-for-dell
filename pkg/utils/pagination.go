@@ -86,6 +86,10 @@ func (q *Query) GetSort() string {
 
 // GetPage
 func (q *Query) GetPage() int {
+	if q.Page == 0 {
+		return 1
+	}
+
 	return q.Page
 }
 
@@ -102,6 +106,7 @@ func GetPaginationFromCtx(c echo.Context) (*Query, error) {
 	if err := q.SetLimit(c.QueryParam("limit")); err != nil {
 		return nil, err
 	}
+	
 	q.SetSort(c.QueryParam("sort"))
 	q.Search = c.QueryParam("search")
 

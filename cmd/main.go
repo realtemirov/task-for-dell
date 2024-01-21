@@ -24,7 +24,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to load config: %v", err)
 	}
-
+	fmt.Println(cfg)
 	logger := logger.NewApiLogger(cfg)
 	logger.InitLogger()
 

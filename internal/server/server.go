@@ -55,7 +55,7 @@ func (s *server) Run() error {
 
 	// init server
 	server := &http.Server{
-		Addr:           "localhost:8080",
+		Addr:           s.cfg.Server.Port,
 		ReadTimeout:    time.Second * s.cfg.Server.ReadTimeout,
 		WriteTimeout:   time.Second * s.cfg.Server.WriteTimeout,
 		MaxHeaderBytes: MAX_HEADER_SIZE,

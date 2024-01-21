@@ -1,4 +1,4 @@
-DOCKER_POSTGRES_CONTAINER_NAME=postgres
+DOCKER_POSTGRES_CONTAINER_NAME=api_postges
 POSTGRES_HOST=localhost
 POSTGRES_PORT=5433
 POSTGRES_USER=realtemirov
@@ -13,8 +13,7 @@ build:
 	go build -o ./bin/main ./cmd/main.go
 test:
 	go test -cover ./...
-lint:
-	golangci-lint run ./...
+
 ##########################################################################
 # Postgres Container
 psql-run: 
@@ -45,3 +44,10 @@ dropdb:
 # Swagger
 swag:
 	swag init -g **/**/*.go
+
+##########################################################################
+# Docker
+compose:
+	docker-compose up -d --build
+start:
+	make psql-run && make migration-up

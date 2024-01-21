@@ -1,7 +1,7 @@
 server:
   AppVersion: 1.0.0
   Mode: Development
-  Port: :8080
+  Port: :8000
   Debug: false
   ReadTimeout: 5
   WriteTimeout: 5
@@ -13,8 +13,8 @@ logger:
   Encoding: json
 
 postgres:
-  Host: localhost
-  Port: 5433
+  Host: postgres
+  Port: 5432
   Username: realtemirov
   Password: 123456
   DBName: task-for-dell
