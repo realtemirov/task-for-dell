@@ -18,6 +18,10 @@ This project is a Golang-based API using the Echo framework and Postgres databas
 * Swagger UI.
 * Docker.
 * CI/CD by Github Actions.
+* Test coverage
+  * `100%` in repository
+  * `100%` in UseCases
+  * `78.9%` in Handlers
 
 ## Prerequisites
 * Golang - [Installation Guide](https://golang.org/doc/install)

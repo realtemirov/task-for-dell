@@ -370,9 +370,8 @@ func TestBlogRepo_GetAll(t *testing.T) {
 
 		// mock query with args and return rows
 		mock.ExpectQuery(
-			fmt.Sprintf("%s ORDER BY created_by $1 OFFSET $2 LIMIT $3", getAllQuery),
+			fmt.Sprintf("%s ORDER BY created_at %s OFFSET $1 LIMIT $2", getAllQuery, query.GetSort()),
 		).WithArgs(
-			query.GetSort(),
 			query.GetOffset(),
 			query.GetLimit(),
 		).WillReturnRows(rows)
@@ -424,10 +423,9 @@ func TestBlogRepo_GetAll(t *testing.T) {
 		// mock query with args and return rows, with search
 		mock.ExpectQuery(
 			fmt.Sprintf(
-				"%s ORDER BY created_by $1 OFFSET $2 LIMIT $3",
-				fmt.Sprintf(`%s%s`, getAllQuery, " AND title LIKE '%"+query.Search+"%' ")),
+				"%s ORDER BY created_at %s OFFSET $1 LIMIT $2",
+				fmt.Sprintf(`%s%s`, getAllQuery, " AND title LIKE '%"+query.Search+"%' "), query.GetSort()),
 		).WithArgs(
-			query.GetSort(),
 			query.GetOffset(),
 			query.GetLimit(),
 		).WillReturnRows(rows)
@@ -519,9 +517,8 @@ func TestBlogRepo_GetAll(t *testing.T) {
 
 		// mock query with args and return rows
 		mock.ExpectQuery(
-			fmt.Sprintf("%s ORDER BY created_by $1 OFFSET $2 LIMIT $3", getAllQuery),
+			fmt.Sprintf("%s ORDER BY created_at %s OFFSET $1 LIMIT $2", getAllQuery, query.GetSort()),
 		).WithArgs(
-			query.GetSort(),
 			query.GetOffset(),
 			query.GetLimit(),
 		).WillReturnRows(rows)
@@ -541,6 +538,7 @@ func TestBlogRepo_GetAll(t *testing.T) {
 	})
 
 	// GetAll rows.Scan error case
+
 	t.Run("GetAll rows.Scan Error", func(t *testing.T) {
 
 		// mock rows and error
@@ -561,9 +559,8 @@ func TestBlogRepo_GetAll(t *testing.T) {
 
 		// mock query with args and return rows
 		mock.ExpectQuery(
-			fmt.Sprintf("%s ORDER BY created_by $1 OFFSET $2 LIMIT $3", getAllQuery),
+			fmt.Sprintf("%s ORDER BY created_at %s OFFSET $1 LIMIT $2", getAllQuery, query.GetSort()),
 		).WithArgs(
-			query.GetSort(),
 			query.GetOffset(),
 			query.GetLimit(),
 		).WillReturnRows(rows)
@@ -598,9 +595,8 @@ func TestBlogRepo_GetAll(t *testing.T) {
 
 		// mock query with args and return error
 		mock.ExpectQuery(
-			fmt.Sprintf("%s ORDER BY created_by $1 OFFSET $2 LIMIT $3", getAllQuery),
+			fmt.Sprintf("%s ORDER BY created_at %s OFFSET $1 LIMIT $2", getAllQuery, query.GetSort()),
 		).WithArgs(
-			query.GetSort(),
 			query.GetOffset(),
 			query.GetLimit(),
 		).WillReturnError(sqlmock.ErrCancelled)
