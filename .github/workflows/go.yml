@@ -22,7 +22,7 @@ jobs:
 
     - name: Build and Push Docker Image
       run: |
-        docker build -t realtemirov/task-for-dell:latest .
+        docker build -t realtemirov/task-for-dell:latest . --file docker/Dockerfile
         docker push realtemirov/task-for-dell:latest
     - name: install ssh keys
       run: |
