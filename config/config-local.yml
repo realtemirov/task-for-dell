@@ -14,7 +14,7 @@ logger:
 
 postgres:
   Host: postgres
-  Port: 5431
+  Port: 5432
   Username: realtemirov
   Password: 123456
   DBName: task-for-dell
