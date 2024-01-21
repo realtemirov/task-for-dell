@@ -1,6 +1,8 @@
 # Blog and News API
 This project is a Golang-based API using the Echo framework and Postgres database for managing and serving Blogs and News content.
 
+## Swagger UI - http://135.181.88.180:8000/swagger/index
+
 #### Table of Contents
 * [Features](#features)
 * [Prerequisites](#prerequisites)
